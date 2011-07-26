@@ -77,7 +77,7 @@ function() {
 
     @parse_tree = EpicTowelie.parse_tree("console.log('foo'); console.log('bar'); console.log('baz');")
     @parse_tree.echoes(:tokens => 1).should == {@parse_tree[0] => [@parse_tree[1], @parse_tree[2]]}
-    # TODO: this requires significant expansion, including :tokens => 2, :tokens => n, and :percentage => n
+    # TODO: this wants significant expansion, e.g., {:tokens => 2, :tokens => n, :percentage => n}
   end
 
   it "can extract the variant tokens" do
@@ -93,11 +93,12 @@ function() {
   it "is possible to create arbitrary shit in Johnson" do
     Johnson::Nodes::SourceElements.new(0, 0, [Johnson::Nodes::String.new(0, 0, "foo")]).to_js.should == '"foo";'
   end
-  # TODO: it'd make so much code so much easier to read if I created a wrapper method around these Johnson.new
-  # statements, e.g., j.source.string("foo")
+  # TODO: it'd make so much code so much easier to read if I created a wrapper method around
+  # these Johnson.new statements, e.g., j.source.string("foo")
 
-  # TODO: refactor this; it should probably live in its own describe block. currently this spec walks an array
-  # through each of its transformations on the path from clunky function to refactored version
+  # TODO: refactor this; it should probably live in its own describe block. currently this spec
+  # walks an array through each of its transformations on the path from clunky function to
+  # refactored version
   it "can transform sexp arrays to create a wrapper function" do
     # console.log("foo");
     statement = [[:function_call,

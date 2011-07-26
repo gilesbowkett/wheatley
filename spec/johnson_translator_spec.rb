@@ -92,7 +92,7 @@ describe "Johnson::Translator can convert JavaScript-derived sexps back to Johns
   end
 
   it "- for example, the simple statement 'console.log(\"foo\");'" do
-    @abstract_syntax_tree = Johnson::Parser.parse("console.log(\"foo\");")
+    @abstract_syntax_tree = Johnson::Parser.parse('console.log("foo");')
 
     @abstract_syntax_tree.to_sexp.should == [
       [:function_call, [

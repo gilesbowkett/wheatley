@@ -172,7 +172,7 @@ describe "Johnson::Translator can convert JavaScript-derived sexps back to Johns
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
 
-  it "- by auto-generating the Johnson code to compose the AST for a simple function and code invoking it" do
+  it "- by auto-generating Johnson code to compose the AST for a function and the code invoking it" do
     @parsed = Johnson::Parser.parse("function tiny(foo) {console.log(foo);}\n tiny(\"asdf\");")
     @built_with_johnson = Johnson::Nodes::SourceElements.new(0, 0,
                            [Johnson::Nodes::Function.new(0, 0,

@@ -1,9 +1,10 @@
 %w{rubygems ap}.each {|lib| require lib}
 require File.dirname(__FILE__) + "/../lib/johnson_translator.rb"
 
-# TODO: this is repeated several places, needs to be refactored. it'd be REAL nice to integrate it into
-# RSpec's "expected/got" output. also, if expected and got are equal when flattened, but not equal otherwise,
-# then it's a structural error. it'd be nice to have that identified in the command-line output.
+# TODO: this is repeated several places, needs to be refactored. it'd be REAL nice to
+# integrate it into RSpec's "expected/got" output. also, if expected and got are equal
+# when flattened, but not equal otherwise, then it's a structural error. it'd be nice
+# to have that identified in the command-line output.
 def log_tree(tree)
   puts tree.ai
 end
@@ -282,9 +283,13 @@ describe "dot accessor and function call node" do
     @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
                   # this does not work! translate_pair_node is probably fucked.
-                  # TODO: maybe rename it translate_array_subtree? the problem is really right there in the names. an array subtree means a call to
-                  # traverse; an array node means take it apart and turn it into JavaScript. what I really need to look at is what I
-                  # do when I'm increasing my depth level on a recursive traverse() call.
+                  # TODO: maybe rename it translate_array_subtree? the problem is really right
+                  # there in the names. an array subtree means a call to traverse; an array node
+                  # means take it apart and turn it into JavaScript. what I really need to look
+                  # at is what I do when I'm increasing my depth level on a recursive traverse() call.
+
+                  # FIXME: not only do I have no fucking clue what the above comment means, I
+                  # think it must be incorrect, because the specs pass. wtf?!
   end
 end
 
@@ -302,10 +307,15 @@ describe "function call nodes" do
   end
 
   it "two" do # this does not work! translate_pair_node is probably fucked.
-              # TODO: maybe rename it translate_array_subtree? the problem is really right there in the names. an array subtree means a call to
-              # traverse; an array node means take it apart and turn it into JavaScript. it's entirely possible that two function defs in a row,
-              # or two tiny.foo() calls in a row, could fail in the same manner and for the same reason. what I really need to look at is what I
+              # TODO: maybe rename it translate_array_subtree? the problem
+              # is really right there in the names. an array subtree means a call to
+              # traverse; an array node means take it apart and turn it into
+              # JavaScript. it's entirely possible that two function defs in a row,
+              # or two tiny.foo() calls in a row, could fail in the same manner
+              # and for the same reason. what I really need to look at is what I
               # do when I'm increasing my depth level on a recursive traverse() call.
+
+              # FIXME: wtf???????????
     @abstract_syntax_tree = Johnson::Parser.parse("tiny(foo); tiny(bar);")
     @abstract_syntax_tree.to_sexp.should == [
       [:function_call,
@@ -317,7 +327,10 @@ describe "function call nodes" do
 
     @translator = Johnson::Translator.new
     @translated = @translator.translate(@abstract_syntax_tree.to_sexp)
-    @translator.translation.join("").gsub(/\), \]/, ")]").should == "Johnson::Nodes::SourceElements.new(0, 0, [Johnson::Nodes::FunctionCall.new(0, 0, [Johnson::Nodes::Name.new(0, 0, 'tiny'), Johnson::Nodes::Name.new(0, 0, 'foo')]), Johnson::Nodes::FunctionCall.new(0, 0, [Johnson::Nodes::Name.new(0, 0, 'tiny'), Johnson::Nodes::Name.new(0, 0, 'bar')])])"
+    johnson_build =<<-CODE
+Johnson::Nodes::SourceElements.new(0, 0, [Johnson::Nodes::FunctionCall.new(0, 0, [Johnson::Nodes::Name.new(0, 0, 'tiny'), Johnson::Nodes::Name.new(0, 0, 'foo')]), Johnson::Nodes::FunctionCall.new(0, 0, [Johnson::Nodes::Name.new(0, 0, 'tiny'), Johnson::Nodes::Name.new(0, 0, 'bar')])])
+CODE
+    @translator.translation.join("").gsub(/\), \]/, ")]").should == johnson_build.chomp
     @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
@@ -325,5 +338,8 @@ end
 
 describe "translating a new sexp into JavaScript" do
   sexp = [[:func_expr, "asdf", ["qwerty"], [[:function_call, [[:dot_accessor, [:name, "log"], [:name, "console"]], [:name, "qwerty"]]]]], [:function_call, [[:name, "asdf"], [:str, "foo"]]]]
-  Johnson::Translator.new.translate(sexp).to_js.should == "function asdf(qwerty) {\n  console.log(qwerty);\n}\nasdf(\"foo\");"
+  javascript = <<-CODE
+function asdf(qwerty) {\n  console.log(qwerty);\n}\nasdf("foo");
+CODE
+  Johnson::Translator.new.translate(sexp).to_js.should == javascript.chomp
 end

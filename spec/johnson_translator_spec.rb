@@ -194,7 +194,10 @@ describe "Johnson::Translator can convert JavaScript-derived sexps back to Johns
   end
 
   it "- building the correct generated code to produce the AST for 'function tiny(foo) {console.log(foo);}\n tiny(\"asdf\");'" do
-    @intended = %{Johnson::Nodes::SourceElements.new(0, 0, [Johnson::Nodes::Function.new(0, 0, "tiny", ["foo"], Johnson::Nodes::SourceElements.new(0, 0, [Johnson::Nodes::FunctionCall.new(0, 0, [Johnson::Nodes::DotAccessor.new(0, 0, Johnson::Nodes::Name.new(0, 0, 'log'), Johnson::Nodes::Name.new(0, 0, 'console')), Johnson::Nodes::Name.new(0, 0, 'foo')])])), Johnson::Nodes::FunctionCall.new(0, 0, [Johnson::Nodes::Name.new(0, 0, 'tiny'), Johnson::Nodes::String.new(0, 0, 'asdf')])])}
+    @intended = <<-INTENDED
+Johnson::Nodes::SourceElements.new(0, 0, [Johnson::Nodes::Function.new(0, 0, "tiny", ["foo"], Johnson::Nodes::SourceElements.new(0, 0, [Johnson::Nodes::FunctionCall.new(0, 0, [Johnson::Nodes::DotAccessor.new(0, 0, Johnson::Nodes::Name.new(0, 0, 'log'), Johnson::Nodes::Name.new(0, 0, 'console')), Johnson::Nodes::Name.new(0, 0, 'foo')])])), Johnson::Nodes::FunctionCall.new(0, 0, [Johnson::Nodes::Name.new(0, 0, 'tiny'), Johnson::Nodes::String.new(0, 0, 'asdf')])])
+INTENDED
+    @intended.chomp!
     @sexp = [[:func_expr, "tiny", ["foo"], [[:function_call, [[:dot_accessor,
               [:name, "log"], [:name, "console"]], [:name, "foo"]]]]],
             [:function_call, [[:name, "tiny"], [:str, "asdf"]]]]

@@ -339,7 +339,10 @@ end
 describe "translating a new sexp into JavaScript" do
   sexp = [[:func_expr, "asdf", ["qwerty"], [[:function_call, [[:dot_accessor, [:name, "log"], [:name, "console"]], [:name, "qwerty"]]]]], [:function_call, [[:name, "asdf"], [:str, "foo"]]]]
   javascript = <<-CODE
-function asdf(qwerty) {\n  console.log(qwerty);\n}\nasdf("foo");
+function asdf(qwerty) {
+  console.log(qwerty);
+}
+asdf("foo");
 CODE
   Johnson::Translator.new.translate(sexp).to_js.should == javascript.chomp
 end

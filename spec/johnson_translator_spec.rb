@@ -249,11 +249,11 @@ describe "function subnode translating" do
     @translator = Johnson::Translator.new
     @translator.translate_function_arguments([]).should == "[]"
     @translator = Johnson::Translator.new
-    @translator.translate_function_arguments(["foo"]).should == "[\"foo\"]"
+    @translator.translate_function_arguments(["foo"]).should == %{["foo"]}
   end
   it "translates function names" do
     @translator = Johnson::Translator.new
-    @translator.translate_function_name("tiny").should == "\"tiny\""
+    @translator.translate_function_name("tiny").should == %{"tiny"}
   end
   it "translates function bodies" do
     @sexp = [
@@ -263,7 +263,10 @@ describe "function subnode translating" do
                 [:name, "console"]],
                [:str, "foo"]]]]
     @translator = Johnson::Translator.new
-    @translator.translate_function_body(@sexp).should == %{Johnson::Nodes::SourceElements.new(0, 0, [Johnson::Nodes::FunctionCall.new(0, 0, [Johnson::Nodes::DotAccessor.new(0, 0, Johnson::Nodes::Name.new(0, 0, 'log'), Johnson::Nodes::Name.new(0, 0, 'console')), Johnson::Nodes::String.new(0, 0, 'foo')])])}
+    johnson_build = <<-JOHNSON
+Johnson::Nodes::SourceElements.new(0, 0, [Johnson::Nodes::FunctionCall.new(0, 0, [Johnson::Nodes::DotAccessor.new(0, 0, Johnson::Nodes::Name.new(0, 0, 'log'), Johnson::Nodes::Name.new(0, 0, 'console')), Johnson::Nodes::String.new(0, 0, 'foo')])])
+JOHNSON
+    @translator.translate_function_body(@sexp).should == johnson_build.chomp
   end
 end
 

@@ -11,3 +11,10 @@ RSpec::Core::RakeTask.new(:spec) do |t|
   t.rspec_opts = %w[--color]
   t.verbose = false
 end
+
+desc "Run specs and (legacy) test"
+# there's also some found interwebs code in here which uses test/unit instead of rspec
+task :tdd => :spec do
+  system "ruby test/test_array_intersection.rb"
+end
+

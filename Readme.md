@@ -48,7 +48,7 @@ Since I don't know C, and I wasn't interested in exploring the Visitor pattern -
 Unreleased Features And/Or Sibling Project
 ------------------------------------------
 
-Wheatley began as part of a very ambitious initiative, to create a web business which automatically refactors bad code for a flat fee. (I may actually complete this project, but it's on hold for now.) The original messier private repo has a bunch of additional code which analyzes every line of JavaScript in a code base and identifies duplicate and highly similar functions.
+Wheatley began as part of a very ambitious initiative, to create a web business which automatically refactors bad code for a flat fee. (I may actually complete this project, but it's on hold for now.) The original messier private repo has a bunch of additional code which analyzes every line of JavaScript in a code base and identifies duplicate and highly similar functions. I ran it against a legacy code base with 14,551 lines of code and results looked accurate.
 
 That code shares very little code with Wheatley. It runs on Ruby, JavaScript, JSLint, Node, Sibilant, and Redis. Although Wheatley copies that code's features, using Node (and Redis) means the code runs **much** faster. Also, Wheatley has no code to systematically analyze every line of code in a code base, whereas the original project does.
 

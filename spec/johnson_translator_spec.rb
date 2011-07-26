@@ -205,7 +205,11 @@ INTENDED
   end
 
   it "- for example, 'function tiny(foo) {console.log(foo);}\n tiny(\"asdf\");'" do
-    @abstract_syntax_tree = Johnson::Parser.parse("function tiny(foo) {console.log(foo);}\n tiny(\"asdf\");")
+    tiny_function = <<-TINY
+function tiny(foo) {console.log(foo);}
+tiny("asdf");
+TINY
+    @abstract_syntax_tree = Johnson::Parser.parse(tiny_function.chomp)
 
     @abstract_syntax_tree.to_sexp.should == [
       [:func_expr, "tiny", ["foo"], [[:function_call, [[:dot_accessor,

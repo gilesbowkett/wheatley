@@ -3,7 +3,7 @@
 require File.dirname(__FILE__) + "/../lib/array_intersection"
 require File.dirname(__FILE__) + "/../lib/johnson_translator"
 
-class EpicTowelie
+class Wheatley
   class << self
     attr_accessor :literals
 

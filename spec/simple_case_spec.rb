@@ -29,7 +29,7 @@ function() {
   asdf("baz");
 }
     REFACTORED
-    # EpicTowelie.refactor(@code).should == @refactored
+    # Wheatley.refactor(@code).should == @refactored
   end
 
   it "obtains the parse tree" do
@@ -39,11 +39,11 @@ function() {
                      [:name, "console"]],
                     [:str, "foo"]]]]
     @code = "console.log('foo');"
-    EpicTowelie.parse_tree(@code).should == @parse_tree
+    Wheatley.parse_tree(@code).should == @parse_tree
   end
 
   it "identifies repetition in the parse tree" do
-    @parse_tree = EpicTowelie.parse_tree("function foo() { return true; }; function foo() { return true; };")
+    @parse_tree = Wheatley.parse_tree("function foo() { return true; }; function foo() { return true; };")
 
     @parse_tree[0].should == [:func_expr, "foo", [], [[:return, [:true]]]]
     @parse_tree[1].should == [:func_expr, "foo", [], [[:return, [:true]]]]
@@ -53,40 +53,40 @@ function() {
   end
 
   it "calculates similarity" do
-    @parse_tree = EpicTowelie.parse_tree("function foo() { return true; }; function bar() { return true; };")
+    @parse_tree = Wheatley.parse_tree("function foo() { return true; }; function bar() { return true; };")
     @parse_tree[0].similarity(@parse_tree[1]).should == 75
   end
 
   it "can compare code blocks to see how many tokens they differ by" do
-    @parse_tree = EpicTowelie.parse_tree("console.log('foo'); console.log('foo');")
+    @parse_tree = Wheatley.parse_tree("console.log('foo'); console.log('foo');")
     @parse_tree[0].token_diff(@parse_tree[1]).should == 0
 
-    @parse_tree = EpicTowelie.parse_tree("console.log('foo'); console.log('bar');")
+    @parse_tree = Wheatley.parse_tree("console.log('foo'); console.log('bar');")
     @parse_tree[0].token_diff(@parse_tree[1]).should == 1
 
-    @parse_tree = EpicTowelie.parse_tree("console.log('foo'); alert(console.log('foo'));")
+    @parse_tree = Wheatley.parse_tree("console.log('foo'); alert(console.log('foo'));")
     @parse_tree[0].token_diff(@parse_tree[1]).should == 1
 
-    @parse_tree = EpicTowelie.parse_tree("console.log('foo'); alert(console.log('bar'));")
+    @parse_tree = Wheatley.parse_tree("console.log('foo'); alert(console.log('bar'));")
     @parse_tree[0].token_diff(@parse_tree[1]).should == 2
   end
 
   it "can take a given code block and discover similar code blocks" do
-    @parse_tree = EpicTowelie.parse_tree("console.log('foo'); console.log('bar');")
+    @parse_tree = Wheatley.parse_tree("console.log('foo'); console.log('bar');")
     @parse_tree.echoes(:tokens => 1).should == {@parse_tree[0] => [@parse_tree[1]]}
 
-    @parse_tree = EpicTowelie.parse_tree("console.log('foo'); console.log('bar'); console.log('baz');")
+    @parse_tree = Wheatley.parse_tree("console.log('foo'); console.log('bar'); console.log('baz');")
     @parse_tree.echoes(:tokens => 1).should == {@parse_tree[0] => [@parse_tree[1], @parse_tree[2]]}
     # TODO: this wants significant expansion, e.g., {:tokens => 2, :tokens => n, :percentage => n}
   end
 
   it "can extract the variant tokens" do
-    @variant_tokens = EpicTowelie.parse_tree("console.log('foo'); console.log('bar');").variant_tokens
+    @variant_tokens = Wheatley.parse_tree("console.log('foo'); console.log('bar');").variant_tokens
     @variant_tokens.should == ["foo", "bar"]
   end
 
   it "can identify the invariant tokens" do
-    @invariant_tokens = EpicTowelie.parse_tree("console.log('foo'); console.log('bar');").invariant_tokens
+    @invariant_tokens = Wheatley.parse_tree("console.log('foo'); console.log('bar');").invariant_tokens
     @invariant_tokens.should == [:function_call, :dot_accessor, :name, "log", "console", :str]
   end
 
@@ -119,10 +119,10 @@ function() {
                     [:name, "console"]],
                    [:str, "foo"]]]]]]
 
-    EpicTowelie.wrap_function_call_in_a_function_definition(statement).should == wrapped
+    Wheatley.wrap_function_call_in_a_function_definition(statement).should == wrapped
 
     # "foo"
-    EpicTowelie.extract_literal(wrapped).should == [:str, "foo"]
+    Wheatley.extract_literal(wrapped).should == [:str, "foo"]
 
     with_literal = [[:func_expr,
                      "asdf",
@@ -142,7 +142,7 @@ function() {
                           [:name, "console"]],
                          [:name, "qwerty"]]]]]]
 
-    EpicTowelie.replace_literal_with_variable(with_literal).should == with_variable
+    Wheatley.replace_literal_with_variable(with_literal).should == with_variable
     # TODO: consider: if these methods lived on Array, they could be chained like jQuery
 
     # function asdf(qwerty) {
@@ -161,10 +161,10 @@ function() {
                               [[:name, "asdf"],
                                [:str, "foo"]]]]
 
-    EpicTowelie.add_function_call(with_variable).should == plus_function_call
+    Wheatley.add_function_call(with_variable).should == plus_function_call
 
     # putting it all together...
-    EpicTowelie.refactor_sexp(statement).should == plus_function_call
+    Wheatley.refactor_sexp(statement).should == plus_function_call
   end
 
   it "can do an ultra-simple refactor, namely creating a wrapper function" do
@@ -177,7 +177,7 @@ function asdf(qwerty) {
 }
 asdf("foo");
     REFACTORED
-    EpicTowelie.create_wrapper_function(@code).should == @refactored
+    Wheatley.create_wrapper_function(@code).should == @refactored
   end
 
   it "can do multiple ultra-simple refactors, namely creating wrapper functions" do
@@ -190,7 +190,7 @@ function asdf(qwerty) {
 }
 asdf("foo");
     REFACTORED
-    EpicTowelie.create_wrapper_function(@code).should == @refactored
+    Wheatley.create_wrapper_function(@code).should == @refactored
 
     @code = <<-CODE
 console.log("bar");
@@ -201,7 +201,7 @@ function asdf(qwerty) {
 }
 asdf("bar");
     REFACTORED
-    EpicTowelie.create_wrapper_function(@code).should == @refactored
+    Wheatley.create_wrapper_function(@code).should == @refactored
   end
 end
 

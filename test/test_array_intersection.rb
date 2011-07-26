@@ -2,8 +2,8 @@
 #
 #     http://snippets.dzone.com/posts/show/2134
 #
-# pretty sure I should have used Set instead, or something. including the test because
-# I'm hoping to refactor or clean it up at some point.
+# may refactor later to use Set instead, or something. original code used test/unit,
+# so here it is. there's also a rake task to run both this test and all the specs.
 
 require 'test/unit'
 require File.dirname(__FILE__) + "/../lib/array_intersection"

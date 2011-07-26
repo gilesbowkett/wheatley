@@ -51,7 +51,6 @@ describe "Johnson::Translator can convert JavaScript-derived sexps back to Johns
 
     @translated = Johnson::Translator.new.translate(@abstract_syntax_tree.to_sexp)
     # TODO: fix == for Johnson ASTs
-    @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
 
@@ -64,7 +63,6 @@ describe "Johnson::Translator can convert JavaScript-derived sexps back to Johns
 
     @translated = Johnson::Translator.new.translate(@abstract_syntax_tree.to_sexp)
     # TODO: fix == for Johnson ASTs
-    @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
 
@@ -80,7 +78,6 @@ describe "Johnson::Translator can convert JavaScript-derived sexps back to Johns
 
     @translated = Johnson::Translator.new.translate(@abstract_syntax_tree.to_sexp)
     # TODO: fix == for Johnson ASTs
-    @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
 
@@ -96,7 +93,6 @@ describe "Johnson::Translator can convert JavaScript-derived sexps back to Johns
 
     @translated = Johnson::Translator.new.translate(@abstract_syntax_tree.to_sexp)
     # TODO: fix == for Johnson ASTs
-    @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
 
@@ -107,7 +103,6 @@ describe "Johnson::Translator can convert JavaScript-derived sexps back to Johns
 
     @translated = Johnson::Translator.new.translate(@abstract_syntax_tree.to_sexp)
     # TODO: fix == for Johnson ASTs
-    @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
 
@@ -118,7 +113,6 @@ describe "Johnson::Translator can convert JavaScript-derived sexps back to Johns
 
     @translated = Johnson::Translator.new.translate(@abstract_syntax_tree.to_sexp)
     # TODO: fix == for Johnson ASTs
-    @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
 
@@ -135,7 +129,6 @@ describe "Johnson::Translator can convert JavaScript-derived sexps back to Johns
                                                     Johnson::Nodes::String.new(0, 0, 'foo')])]))])
 
     # TODO: fix == for Johnson ASTs
-    @built_with_johnson_classes.class.should == @parsed_tiny.class
     @built_with_johnson_classes.inspect.should == @parsed_tiny.inspect
   end
 
@@ -148,7 +141,6 @@ describe "Johnson::Translator can convert JavaScript-derived sexps back to Johns
 
     @translated = Johnson::Translator.new.translate(@abstract_syntax_tree.to_sexp)
     # TODO: fix == for Johnson ASTs
-    @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
 
@@ -161,7 +153,6 @@ describe "Johnson::Translator can convert JavaScript-derived sexps back to Johns
 
     @translated = Johnson::Translator.new.translate(@abstract_syntax_tree.to_sexp)
     # TODO: fix == for Johnson ASTs
-    @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
 
@@ -182,7 +173,6 @@ describe "Johnson::Translator can convert JavaScript-derived sexps back to Johns
                                Johnson::Nodes::String.new(0, 0, 'asdf')])])
 
      # TODO: fix == for Johnson ASTs
-     @built_with_johnson.class.should == @parsed.class
      @built_with_johnson.inspect.should == @parsed.inspect
   end
 
@@ -211,7 +201,6 @@ TINY
 
     @translated = Johnson::Translator.new.translate(@abstract_syntax_tree.to_sexp)
     # TODO: fix == for Johnson ASTs
-    @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
 
@@ -232,7 +221,6 @@ TINY
     @translator = Johnson::Translator.new
     @translated = @translator.translate(@abstract_syntax_tree.to_sexp)
     # TODO: fix == for Johnson ASTs
-    @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
 end
@@ -273,7 +261,6 @@ describe "dot accessor and function call node" do
         [:name, "tiny"]]]]]
 
     @translated = Johnson::Translator.new.translate(@abstract_syntax_tree.to_sexp)
-    @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
 
@@ -290,7 +277,6 @@ describe "dot accessor and function call node" do
          [:name, "tiny"]]]]]
 
     @translated = Johnson::Translator.new.translate(@abstract_syntax_tree.to_sexp)
-    @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
                   # this does not work! translate_pair_node is probably fucked.
                   # TODO: maybe rename it translate_array_subtree? the problem is really right
@@ -312,7 +298,6 @@ describe "function call nodes" do
 
     @translator = Johnson::Translator.new
     @translated = @translator.translate(@abstract_syntax_tree.to_sexp)
-    @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
 
@@ -341,7 +326,6 @@ describe "function call nodes" do
 Johnson::Nodes::SourceElements.new(0, 0, [Johnson::Nodes::FunctionCall.new(0, 0, [Johnson::Nodes::Name.new(0, 0, 'tiny'), Johnson::Nodes::Name.new(0, 0, 'foo')]), Johnson::Nodes::FunctionCall.new(0, 0, [Johnson::Nodes::Name.new(0, 0, 'tiny'), Johnson::Nodes::Name.new(0, 0, 'bar')])])
 CODE
     @translator.translation.join("").gsub(/\), \]/, ")]").should == johnson_build.chomp
-    @translated.class.should == @abstract_syntax_tree.class
     @translated.inspect.should == @abstract_syntax_tree.inspect
   end
 end

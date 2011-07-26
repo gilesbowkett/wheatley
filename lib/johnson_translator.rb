@@ -47,8 +47,8 @@ end
 module Johnson
   class Translator
     attr_accessor :translation
-    # TODO: grr!!!!!!!! refactor to spec_helper
-    # FIXME: figure out why I wrote the above comment
+    # FIXME: grr!!!!!!!! refactor to spec_helper
+    # TODO: figure out why I wrote the above comment
     unless "constant" == defined?(CLASS_NAMES)
       CLASS_NAMES = {
         :name => "Name",
@@ -110,7 +110,7 @@ module Johnson
             # analogue to #pop(), twice, and add in the , and the )
 
             translate_pair_node(sexp.slice!(index + 1))
-                               # that should probably be like sexp.next! or something
+                               # that slice!(etc) should probably be like sexp.next! or something
             @translation << ", "
 
             translate_pair_node(sexp.slice!(index + 1))

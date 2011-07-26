@@ -48,9 +48,9 @@ Since I don't know C, and I wasn't interested in exploring the Visitor pattern -
 Unreleased Features And/Or Sibling Project
 ------------------------------------------
 
-Wheatley began as part of a very ambitious initiative, to create a web business which automatically refactors bad code for a flat fee. Its original version has code which analyzes every line of JavaScript in a code base and identifies duplicate and highly similar functions.
+Wheatley began as part of a very ambitious initiative, to create a web business which automatically refactors bad code for a flat fee. (I may actually complete this project, but it's on hold for now.) The original messier private repo has a bunch of additional code which analyzes every line of JavaScript in a code base and identifies duplicate and highly similar functions.
 
-That code shares very little code with Wheatley. It runs on Ruby, JavaScript, JSLint, Node, Sibilant, and Redis. Although Wheatley copies that code's features, using Node means the code runs **much** faster. Also, Wheatley has no code to systematically analyze every line of code in a code base, whereas the original project does.
+That code shares very little code with Wheatley. It runs on Ruby, JavaScript, JSLint, Node, Sibilant, and Redis. Although Wheatley copies that code's features, using Node (and Redis) means the code runs **much** faster. Also, Wheatley has no code to systematically analyze every line of code in a code base, whereas the original project does.
 
 It would be unrealistic to claim I have a roadmap for this project, but if I did, releasing that code would be on it. It may arrive as a feature of Wheatley or as a sibling project.
 
@@ -60,4 +60,6 @@ Name
 Wheatley gets its name from a pretty dumb AI in the video game Portal 2.
 
 http://en.wikipedia.org/wiki/Wheatley_(Portal)
+
+Like its namesake, Wheatley is a pretty dumb AI. I say this partly because the project's business goal was so ambitious that almost anything seems dumb by comparison, but also because it's really only proof-of-concept status at this point.
 

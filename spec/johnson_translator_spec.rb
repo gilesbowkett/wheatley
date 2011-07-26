@@ -363,3 +363,4 @@ asdf("foo");
 CODE
   Johnson::Translator.new.translate(sexp).to_js.should == javascript.chomp
 end
+

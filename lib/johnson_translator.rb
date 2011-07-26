@@ -1,5 +1,25 @@
 %w{rubygems johnson ap}.each {|lib| require lib}
 
+# the Johnson Translator here is quite hacky. here's its rationale and raison d'etre. Johnson
+# does not really provide any facility to create a parse tree from JavaScript, alter it, and
+# then turn it back into JavaScript again. it's kind of read-only.
+
+# sensible people recommended I create a Visitor implementation which hits every node in
+# a Johnson abstract syntax tree. I went with something a bit weirder.
+
+# my implementation gets the Johnson AST, which is basically an Arrays of Arrays and/or Symbols,
+# and runs through every element in the AST, turning it into Ruby which builds a new Johnson AST.
+# then I just eval() the new Ruby and create a new Johnson AST, which I can then call to_js() on.
+
+# the advantage of this unusual approach, if there is one (and I certainly hope so), is that
+# this code's designed to run with other code I've written which can identify similarity and
+# repetition within a code base to within arbitrary thresholds. that code is also only semi-
+# implemented, but it basically works, and is pretty awesome. I've used it against gigantic code
+# bases of many thousands of lines of code. anyway, that code works with Arrays, and I didn't
+# want to redo it to use Visitors, at least not yet. not until it seemed truly necessary.
+
+# code is data, data is code.
+
 module List
   def leaf?
     not self.detect {|element| element.is_a? Array}
@@ -27,7 +47,8 @@ end
 module Johnson
   class Translator
     attr_accessor :translation
-    # grr!!!!!!!! refactor to spec_helper
+    # TODO: grr!!!!!!!! refactor to spec_helper
+    # FIXME: figure out why I wrote the above comment
     unless "constant" == defined?(CLASS_NAMES)
       CLASS_NAMES = {
         :name => "Name",
@@ -44,7 +65,7 @@ module Johnson
         @translation << ["Johnson::Nodes::SourceElements.new(0, 0, ["]
         @left_brackets_and_parentheses_index += 1
       end
-      # this second variable is downright ridiculous so it needs to be excused. here is its
+      # that second variable is somewhat ridiculous so it needs to be excused. here is its
       # excuse: Johnson's node-building statements reliably require us (at this stage at least)
       # to tack on both a ( and a [ any time we add a symbol node.
       #
@@ -88,7 +109,8 @@ module Johnson
             # have the left and right bits handled. so we use slice!(index + 1) as an
             # analogue to #pop(), twice, and add in the , and the )
 
-            translate_pair_node(sexp.slice!(index + 1)) # this should probably be like sexp.next! or something
+            translate_pair_node(sexp.slice!(index + 1))
+                               # that should probably be like sexp.next! or something
             @translation << ", "
 
             translate_pair_node(sexp.slice!(index + 1))
@@ -132,3 +154,4 @@ module Johnson
     end
   end
 end
+

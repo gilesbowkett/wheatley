@@ -9,8 +9,18 @@ end
 class EpicTowelie
   class << self
     attr_accessor :literals
+
     STUPID_DEFAULT_FUNCTION_NAME = "asdf"
     STUPID_DEFAULT_ARGUMENT_NAME = "qwerty"
+    # those constants represent a fairly awful hack. the one area where an automated refactoring
+    # tool kinda flails helplessly is variable naming. I deferred consideration of the entire
+    # issue by throwing in some silly defaults. in theory, a very motivated, very brilliant hacker
+    # with a LOT of spare time could probably work out some kind of best-guess system to automate
+    # variable naming with Python NLTK, but a saner approach to the problem is just to make the
+    # refactoring process interactive, supply a bunch of metadata, and prompt a human for a new
+    # variable name. however this also is somewhat debatable, as some refactorings are so mundane
+    # that they would not be worth the effort to pick a variable name. this is especially the
+    # case with severely fucked legacy code.
 
     def create_wrapper_function(code)
       Johnson::Translator.new.translate(refactor_sexp(Johnson::Parser.parse(code).to_sexp)).to_js + "\n"
@@ -19,6 +29,7 @@ class EpicTowelie
       [[:func_expr, STUPID_DEFAULT_FUNCTION_NAME, [], statement]]
     end
     # TODO: look how all these functions get an Array arg!! this shit should live on Array!!!
+    # (or a subclass maybe)
     def add_function_call(sexp)
       extract_literal(sexp)
       sexp << [:function_call,
@@ -136,3 +147,4 @@ class Array
     return key.flatten & value.flatten
   end
 end
+

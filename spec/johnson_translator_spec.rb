@@ -51,8 +51,9 @@ describe "Johnson::Translator can convert JavaScript-derived sexps back to Johns
 
     # until then:
 
-    # the objects are now essentially equal, but Johnson lacks a relevant/useful concept of equal here,
-    # which would enable "@foo.should == @bar", so we compare on inspect and class instead
+    # the objects are now essentially equal, but Johnson (and, perhaps more to the point, this spec)
+    # lacks a relevant/useful concept of equal here, which would enable "@foo.should == @bar", so
+    # we compare on inspect and class instead
 
     # (TODO: highly similar disclaimer also appears in simple_case_spec.rb. eliminate repetition)
 

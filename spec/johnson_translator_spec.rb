@@ -11,7 +11,9 @@ end
 
 describe "an Array or a Symbol" do
   it "can identify itself as a leaf" do
-    tree = [[:function_call, [[:dot_accessor, [:name, "log"], [:name, "console"]], [:name, "foo"]]]]
+    tree = [[:function_call, [[:dot_accessor, [:name, "log"],
+                                              [:name, "console"]],
+                              [:name, "foo"]]]]
     tree.should_not be_leaf
 
     leaf = [:name, "foo"]

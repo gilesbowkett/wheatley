@@ -1,10 +1,6 @@
 %w{rubygems ap}.each {|lib| require lib}
 require File.dirname(__FILE__) + "/../lib/basic.rb"
 
-def log_tree(tree)
-  puts tree.ai
-end
-
 describe "simplest-case automated refactoring" do
 
   it "refactors code" do

@@ -3,10 +3,6 @@
 require File.dirname(__FILE__) + "/../lib/array_intersection"
 require File.dirname(__FILE__) + "/../lib/johnson_translator"
 
-def log_tree(tree)
-  puts tree.ai
-end
-
 class EpicTowelie
   class << self
     attr_accessor :literals
@@ -96,7 +92,6 @@ class Array
 
   def extract_differing_tokens(other)
     shortest, longest = [self, other].sort {|a,b| a.size <=> b.size}
-    log_tree(longest.flatten - shortest.flatten)
     longest.flatten - shortest.flatten
   end
 

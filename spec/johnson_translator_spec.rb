@@ -1,14 +1,6 @@
 %w{rubygems ap}.each {|lib| require lib}
 require File.dirname(__FILE__) + "/../lib/johnson_translator.rb"
 
-# TODO: this is repeated several places, needs to be refactored. it'd be REAL nice to
-# integrate it into RSpec's "expected/got" output. also, if expected and got are equal
-# when flattened, but not equal otherwise, then it's a structural error. it'd be nice
-# to have that identified in the command-line output.
-def log_tree(tree)
-  puts tree.ai
-end
-
 describe "an Array or a Symbol" do
   it "can identify itself as a leaf" do
     tree = [[:function_call, [[:dot_accessor, [:name, "log"],

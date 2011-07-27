@@ -4,19 +4,15 @@
 # does not really provide any facility to create a parse tree from JavaScript, alter it, and
 # then turn it back into JavaScript again. it's kind of read-only.
 
-# sensible people recommended I create a Visitor implementation which hits every node in
-# a Johnson abstract syntax tree. I went with something a bit weirder.
-
-# my implementation gets the Johnson AST, which is basically an Arrays of Arrays and/or Symbols,
+# my implementation travels the Johnson AST, which is basically an Arrays of Arrays and/or Symbols,
 # and runs through every element in the AST, turning it into Ruby which builds a new Johnson AST.
 # then I just eval() the new Ruby and create a new Johnson AST, which I can then call to_js() on.
 
-# the advantage of this unusual approach, if there is one (and I certainly hope so), is that
 # this code's designed to run with other code I've written which can identify similarity and
 # repetition within a code base to within arbitrary thresholds. that code is also only semi-
 # implemented, but it basically works, and is pretty awesome. I've used it against gigantic code
-# bases of many thousands of lines of code. anyway, that code works with Arrays, and I didn't
-# want to redo it to use Visitors, at least not yet. not until it seemed truly necessary.
+# bases of many thousands of lines of code. anyway, that code works with Arrays, so I wanted my
+# Johnson Translator to be as Array-friendly as possible.
 
 # code is data, data is code.
 

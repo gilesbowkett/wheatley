@@ -17,15 +17,27 @@
 # code is data, data is code.
 
 module List
-  def leaf?
-    not self.detect {|element| element.is_a? Array}
+
+  def tree?
+    self.detect {|element| element.is_a? Array}
   end
+
+  def leaf?
+    not tree?
+  end
+
 end
 
 module Atom
+
   def leaf?
     true
   end
+
+  def tree?
+    false
+  end
+
 end
 
 class Array
@@ -43,6 +55,7 @@ end
 module Johnson
   class Translator
     attr_accessor :translation
+
     # FIXME: grr!!!!!!!! refactor to spec_helper
     # TODO: figure out why I wrote the above comment
     unless "constant" == defined?(CLASS_NAMES)
@@ -54,6 +67,7 @@ module Johnson
         :function_call => "FunctionCall"
       }
     end
+
     def initialize(top_level = true)
       @translation = []
       @left_brackets_and_parentheses_index = 0
@@ -99,7 +113,10 @@ module Johnson
 
     def traverse(sexp)
       sexp.each_with_index do |subtree, index|
-        if subtree.leaf?
+
+        if subtree.tree?
+          traverse(subtree)
+        else
 
           case subtree
 
@@ -142,8 +159,6 @@ module Johnson
             @translation << ", " # this necessitates the regex below
           end
 
-        else
-          traverse(subtree)
         end
 
       end

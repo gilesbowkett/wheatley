@@ -38,6 +38,7 @@ class Array
 
   def echoes(options)
     echo = {}
+
     self.each_with_index do |tree, index|
       next if echo.values.detect {|array| array.include?(tree)}
 
@@ -50,6 +51,7 @@ class Array
 
       echo[tree] = echoes_for_this_tree unless echoes_for_this_tree.empty?
     end
+
     return echo
   end
 
@@ -64,7 +66,6 @@ class Array
     simple_case_echoes = self.echoes(:tokens => 1)
     key = simple_case_echoes.keys[0]
     value = simple_case_echoes[key][0]
-    variant_tokens_translated = self.variant_tokens
     return key.flatten & value.flatten
   end
 

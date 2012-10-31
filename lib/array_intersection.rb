@@ -3,10 +3,10 @@ class Array
   # TODO: cleanup
   # this code is a bit of a fluke, it's got a test rather than a spec, see the test for
   # more info
-  def intersection(arr2)
+  def intersection(other)
 
     self_sorted = self.sort {|a, b| a.to_s <=> b.to_s}
-    target_sorted = arr2.sort {|a, b| a.to_s <=> b.to_s}
+    target_sorted = other.sort {|a, b| a.to_s <=> b.to_s}
 
     intersection= []
 

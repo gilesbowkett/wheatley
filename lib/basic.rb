@@ -22,9 +22,11 @@ class Wheatley
     def create_wrapper_function(code)
       Johnson::Translator.new.translate(refactor_sexp(Johnson::Parser.parse(code).to_sexp)).to_js + "\n"
     end
+
     def wrap_function_call_in_a_function_definition(statement)
       [[:func_expr, STUPID_DEFAULT_FUNCTION_NAME, [], statement]]
     end
+
     # TODO: look how all these functions get an Array arg!! this shit should live on Array!!!
     # (or a subclass maybe)
     def add_function_call(sexp)
@@ -33,6 +35,7 @@ class Wheatley
         [[:name, STUPID_DEFAULT_FUNCTION_NAME],
          self.literals]]
     end
+
     # TODO: this method name is too general. probably instead, all these methods move to Array,
     # and this becomes something like Array::Refactorings.wrapper_function
     def refactor_sexp(sexp)
@@ -41,6 +44,7 @@ class Wheatley
       sexp = add_function_call(sexp)
       sexp
     end
+
     def extract_literal(sexp)
       self.literals ||= []
       sexp.each do |subtree|
@@ -52,6 +56,7 @@ class Wheatley
       end
       return self.literals
     end
+
     def replace_literal_with_variable(statement) # TODO: FUCKED
       extract_literal(statement)
       ghetto_collect = []
@@ -75,54 +80,7 @@ class Wheatley
     def parse_tree(code)
       Johnson::Parser.parse(code).value.collect {|node| node.to_sexp}
     end
-  end
-end
 
-class Array
-  # FIXME: verify specs exist for this! they may not
-  def similarity(other)
-    ((self.intersection(other).size.to_f / self.size.to_f) * 100).to_i
-  end
-
-  def token_diff(other)
-    shortest, longest = [self, other].sort {|a,b| a.size <=> b.size}
-    # to get the differing token, do longest.flatten - shortest.flatten ; OR!! vice versa
-    (longest.flatten - shortest.flatten).size
-  end
-
-  def extract_differing_tokens(other)
-    shortest, longest = [self, other].sort {|a,b| a.size <=> b.size}
-    longest.flatten - shortest.flatten
-  end
-
-  def echoes(options)
-    echo = {}
-    self.each_with_index do |tree, index|
-      next if echo.values.detect {|array| array.include?(tree)}
-
-      echoes_for_this_tree = (self[(index + 1)..-1].collect do |other|
-        next if echo.has_key?(tree) && echo[tree].detect {|value| value.flatten == other.flatten}
-        other if tree.token_diff(other) <= options[:tokens]
-      end).compact
-
-      echo[tree] = echoes_for_this_tree unless echoes_for_this_tree.empty?
-    end
-    return echo
-  end
-
-  def variant_tokens
-    simple_case_echoes = self.echoes(:tokens => 1)
-    key = simple_case_echoes.keys[0]
-    value = simple_case_echoes[key][0]
-    return [(key.flatten - value.flatten)[0], (value.flatten - key.flatten)[0]]
-  end
-
-  def invariant_tokens
-    simple_case_echoes = self.echoes(:tokens => 1)
-    key = simple_case_echoes.keys[0]
-    value = simple_case_echoes[key][0]
-    variant_tokens_translated = self.variant_tokens
-    return key.flatten & value.flatten
   end
 end
 

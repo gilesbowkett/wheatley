@@ -78,6 +78,7 @@ module Johnson
         @translation << "Johnson::Nodes::#{CLASS_NAMES[node_type]}.new(0, 0, '#{node_value}')"
       end
     end
+
     # TODO: this should have a test of its own
     def translate_symbol_node(node_type)
       @translation << "Johnson::Nodes::#{CLASS_NAMES[node_type]}.new(0, 0, ["
@@ -87,9 +88,11 @@ module Johnson
     def translate_function_name(name)
       name.inspect
     end
+
     def translate_function_arguments(arguments)
       arguments.inspect
     end
+
     def translate_function_body(body)
       self.class.new.build_translation(body) # BALDERDASH
     end
@@ -97,7 +100,9 @@ module Johnson
     def traverse(sexp)
       sexp.each_with_index do |subtree, index|
         if subtree.leaf?
+
           case subtree
+
           when :dot_accessor # or: if BINARY_NODES.include?(subtree)
             @translation << "Johnson::Nodes::DotAccessor.new(0, 0, "
 
@@ -111,6 +116,7 @@ module Johnson
 
             translate_pair_node(sexp.slice!(index + 1))
             @translation << "), "
+
           when :func_expr
             @translation << "Johnson::Nodes::Function.new(0, 0, "
 
@@ -122,32 +128,41 @@ module Johnson
 
             @translation << translate_function_body(sexp.slice!(index + 1))
             @translation << "), "
+
           when :function_call
             @translation << "Johnson::Nodes::#{CLASS_NAMES[:function_call]}.new(0, 0, ["
             @translation << self.class.new(false).build_translation(sexp.slice!(index + 1))
             @translation << "]), "
+
           when Symbol
             translate_symbol_node(subtree)
+
           when Array
             translate_pair_node(subtree)
             @translation << ", " # this necessitates the regex below
           end
+
         else
           traverse(subtree)
         end
+
       end
     end
+
     def close_brackets
       @translation << ("])" * @left_brackets_and_parentheses_index) # see excuse, above
       @translation.join("").gsub(/\), \]/, ")]") # TODO: write a test for this!!
     end
+
     def build_translation(sexp)
       traverse(sexp)
       close_brackets # this may have to happen very differently.
     end
+
     def translate(sexp)
       eval build_translation(sexp)
     end
+
   end
 end
 

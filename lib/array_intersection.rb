@@ -41,10 +41,12 @@ class Array
     self.each_with_index do |tree, index|
       next if echo.values.detect {|array| array.include?(tree)}
 
-      echoes_for_this_tree = (self[(index + 1)..-1].collect do |other|
-        next if echo.has_key?(tree) && echo[tree].detect {|value| value.flatten == other.flatten}
-        other if tree.token_diff(other) <= options[:tokens]
-      end).compact
+      echoes_for_this_tree = (
+        self[(index + 1)..-1].collect do |other|
+          next if echo.has_key?(tree) && echo[tree].detect {|value| value.flatten == other.flatten}
+          other if tree.token_diff(other) <= options[:tokens]
+        end
+      ).compact
 
       echo[tree] = echoes_for_this_tree unless echoes_for_this_tree.empty?
     end

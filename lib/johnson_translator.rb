@@ -120,6 +120,8 @@ module Johnson
 
           case subtree
 
+          # so a case-when this involved and repetitive definitely hints at the idea of subclasses instead
+
           when :dot_accessor # or: if BINARY_NODES.include?(subtree)
             @translation << "Johnson::Nodes::DotAccessor.new(0, 0, "
 

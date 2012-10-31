@@ -55,17 +55,20 @@ class Array
     return echo
   end
 
-  def variant_tokens
+  def token_variance
     simple_case_echoes = self.echoes(:tokens => 1)
     key = simple_case_echoes.keys[0]
     value = simple_case_echoes[key][0]
+    return key, value
+  end
+
+  def variant_tokens
+    key, value = token_variance
     return [(key.flatten - value.flatten)[0], (value.flatten - key.flatten)[0]]
   end
 
   def invariant_tokens
-    simple_case_echoes = self.echoes(:tokens => 1)
-    key = simple_case_echoes.keys[0]
-    value = simple_case_echoes[key][0]
+    key, value = token_variance
     return key.flatten & value.flatten
   end
 

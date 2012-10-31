@@ -60,6 +60,9 @@ class Array
 
   def token_variance
     simple_case_echoes = self.echoes(:tokens => 1)
+    # I believe the reason this code only grabs the first element of these two arrays is because of that
+    # :tokens => 1 thing. it means you're only going one level of difference deep; however, echoes
+    # can actually take an arbitrary number of tokens, so this would be interesting stuff to expand on.
     key = simple_case_echoes.keys[0]
     value = simple_case_echoes[key][0]
     return key, value
